@@ -98,6 +98,9 @@ void AGameplayDemoCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 		// Sprinting
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Triggered, this, &AGameplayDemoCharacter::StartSprint);
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AGameplayDemoCharacter::StopSprint);
+
+		// Pause Menu
+		EnhancedInputComponent->BindAction(MenuAction, ETriggerEvent::Triggered, this, &AGameplayDemoCharacter::ToggleMenu);
 	}
 	else
 	{
@@ -207,4 +210,16 @@ void AGameplayDemoCharacter::UpdateStamina()
 	}
 
 	
+}
+
+void AGameplayDemoCharacter::ToggleMenu()
+{
+	if (bIsMenuOpen)
+	{
+		bIsMenuOpen = false;
+	}
+	else
+	{
+		bIsMenuOpen = true;
+	}
 }

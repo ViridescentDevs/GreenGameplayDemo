@@ -48,6 +48,10 @@ class AGameplayDemoCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SprintAction;
 
+	/** Pause Menu Action */
+	UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* MenuAction;
+
 public:
 	AGameplayDemoCharacter();
 	
@@ -92,8 +96,13 @@ protected:
 
 	float CurrentStaminaRegenRate;
 	bool bhasStamina;
-	
 
+	//Menu
+
+	void ToggleMenu();
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Menu", meta = (AllowPrivateAccess = "true"))
+	bool bIsMenuOpen = false;*/
+	
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -107,5 +116,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	/**Menu Stuff**/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Menu", meta = (AllowPrivateAccess = "true"))
+	bool bIsMenuOpen = false;
 };
 
