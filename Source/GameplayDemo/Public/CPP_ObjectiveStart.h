@@ -6,21 +6,21 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "CPP_ObjectiveStart.generated.h"
+#include "Blueprint/UserWidget.h"
 
-USTRUCT()
 
+USTRUCT(BlueprintType)
 struct FObjective
 {
 	GENERATED_BODY()
-
-	public:
+	
 	/** Current Task Title Text */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Objective Data")
-	FText ObjectiveTitleText;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Objective Data" , meta=(InstanceEditable="true"))
+	FText TitleText;
 
 	/** Current Task Content Text */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Objective Data", meta=(MultiLine="true"))
-	FText ObjectiveContentText;
+	FText ContentText;
 	
 };
 
@@ -41,11 +41,11 @@ public:
 	TObjectPtr<USceneComponent> DefaultSceneRoot;
 
 	/** Size of the Cube when spawned, default as 50^3 */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true", InstanceEditable="true"))
 	FVector ObjectiveBoxSize = FVector(50.0f, 50.0f, 50.0f);
 
 	/** Data for the Objective */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true", InstanceEditable="true"))
 	FObjective ObjectiveData;
 	
 	/** Is a Task currently in Progress? */
@@ -57,14 +57,22 @@ public:
 	UUserWidget* WBP_Objective_C;
 
 	/** Sets the Tag to whatever the variable's name is */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true"))
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true", InstanceEditable="true"))
 	FName TagSetter;
 	
-	/** Queue that holds all the tasks */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true"))
-	TQueue<ObjectiveData> TaskQueue;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true", InstanceEditable="true"))
+	FText CurrentTitleText;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true", InstanceEditable="true"))
+	FText CurrentContentText;
+	
+	FText GetTitleText() const { return ObjectiveData.TitleText; }
+	FText GetContentText() const { return ObjectiveData.ContentText; }
 
-
+	/** Function to set the Objective Data */
+	UFUNCTION(BlueprintCallable, Category="Tasks")
+	void SetObjectiveData(const FObjective& NewObjectiveData);
+	
 	// Sets default values for this actor's properties
 	ACPP_ObjectiveStart();
 
@@ -75,5 +83,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void CompletedTask();
 
 };

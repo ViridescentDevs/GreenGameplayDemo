@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "GameplayDemoCharacter.generated.h"
+#include "Public/CPP_ObjectiveStart.h"
 
 class USpringArmComponent;
 class UCameraComponent;
@@ -14,6 +15,8 @@ class UInputAction;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
+
+
 
 UCLASS(config=Game)
 class AGameplayDemoCharacter : public ACharacter
@@ -51,6 +54,23 @@ class AGameplayDemoCharacter : public ACharacter
 	/** Pause Menu Action */
 	UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* MenuAction;
+
+	/** Task Menu Action */
+	UPROPERTY(EditAnywhere, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* TaskMenuAction;
+
+	/** Task System */
+	
+	/** Queue that holds Task Data */
+	
+	TQueue<FObjective> ObjectiveQueue;
+
+	/** Queue Traversal */
+	UFUNCTION(BlueprintCallable, Category = "Tasks")
+	void TraverseObjectiveQueue();
+
+	
+	
 
 public:
 	AGameplayDemoCharacter();

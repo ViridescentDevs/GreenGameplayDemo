@@ -16,6 +16,15 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //////////////////////////////////////////////////////////////////////////
 // AGameplayDemoCharacter
 
+
+void AGameplayDemoCharacter::TraverseObjectiveQueue()
+{
+	/** Traverse the Objective queue */
+	
+
+	
+}
+
 AGameplayDemoCharacter::AGameplayDemoCharacter()
 {
 	// Set size for collision capsule
