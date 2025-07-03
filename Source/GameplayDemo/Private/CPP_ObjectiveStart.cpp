@@ -41,8 +41,23 @@ ACPP_ObjectiveStart::ACPP_ObjectiveStart()
 	FObjective DefaultObjective;
 	DefaultObjective.TitleText = FText::FromString("Default Objective Title");
 	DefaultObjective.ContentText = FText::FromString("Default Objective Content");
+	ObjectiveData = DefaultObjective;
+
+
+	ConstructorHelpers::FClassFinder<UUserWidget> WBP_Objective_Ref(TEXT("Content/UI/WBP_Objective")) 
+	{
+		TSubclassOf<UUserWidget> WBPClass;
+		if (WBP_Objective_Ref.Succeeded())
+		{
+			WBP_Objective_C = WBP_Objective_Ref.Class;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("WBP_Objective_C not found!"));
+			WBP_Objective_C = nullptr;
+		}
+	};
 	
-	SetObjectiveData(DefaultObjective);
 		
 
 }
@@ -51,7 +66,9 @@ ACPP_ObjectiveStart::ACPP_ObjectiveStart()
 void ACPP_ObjectiveStart::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SetObjectiveData(ObjectiveData);
+
+	CreateWidget( GetWorld(), WBP_Objective_C)->AddToViewport();
 	
 }
 
