@@ -19,6 +19,7 @@ ACPP_ObjectiveStart::ACPP_ObjectiveStart()
 	RootComponent = DefaultSceneRoot;
 	ObjectiveInProgress = false;
 	ObjectiveBox->ComponentTags.Add({TagSetter});
+	
 
 }
 

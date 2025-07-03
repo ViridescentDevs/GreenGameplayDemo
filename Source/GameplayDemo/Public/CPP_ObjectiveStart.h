@@ -7,44 +7,62 @@
 #include "GameFramework/Actor.h"
 #include "CPP_ObjectiveStart.generated.h"
 
+USTRUCT()
+
+struct FObjective
+{
+	GENERATED_BODY()
+
+	public:
+	/** Current Task Title Text */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Objective Data")
+	FText ObjectiveTitleText;
+
+	/** Current Task Content Text */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Objective Data", meta=(MultiLine="true"))
+	FText ObjectiveContentText;
+	
+};
+
 UCLASS()
+
 class GAMEPLAYDEMO_API ACPP_ObjectiveStart : public AActor
 {
 	GENERATED_BODY()
 
 
 public:
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category="Default")
+	/** Name of the Collision Bounds */
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category="Tasks")
 	TObjectPtr<UBoxComponent> ObjectiveBox;
 
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category="Default")
+	/**Object Pointer to the SceneRoot */
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category="Tasks")
 	TObjectPtr<USceneComponent> DefaultSceneRoot;
 
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
-	FVector ObjectiveBoxSize;
+	/** Size of the Cube when spawned, default as 50^3 */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks")
+	FVector ObjectiveBoxSize = FVector(50.0f, 50.0f, 50.0f);
 
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
-	FText ObjectiveTitleText;
-
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default", meta=(MultiLine="true"))
-	FText ObjectiveContentText;
-
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Default", meta=(MultiLine="true"))
+	/** Data for the Objective */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks")
+	FObjective ObjectiveData;
+	
+	/** Is a Task currently in Progress? */
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Tasks", meta=(MultiLine="true"))
 	bool ObjectiveInProgress;
 
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Default", meta=(EditInline="true", BindWidget))
+	/** Widget pointer to the Objective Blueprint */
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Tasks", meta=(EditInline="true", BindWidget))
 	UUserWidget* WBP_Objective_C;
 
-	/** Please add a variable description */
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default", meta=(ExposeOnSpawn="true"))
+	/** Sets the Tag to whatever the variable's name is */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true"))
 	FName TagSetter;
+	
+	/** Queue that holds all the tasks */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Tasks", meta=(ExposeOnSpawn="true"))
+	TQueue<ObjectiveData> TaskQueue;
 
 
 	// Sets default values for this actor's properties
